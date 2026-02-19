@@ -4,7 +4,8 @@ export default defineConfig({
     base: '/relms/',
     server: {
         port: 5173,
-        open: false
+        open: false,
+        allowedHosts: true
     },
     build: {
         outDir: 'dist'
