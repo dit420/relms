@@ -57,6 +57,12 @@ export class HUD {
           <button class="hud-btn hud-btn-primary" id="btn-arrange" style="display:none; background: linear-gradient(135deg, #00f0ff, #0077ff);">
             🗺️ Arrange
           </button>
+          <button class="hud-btn hud-btn-icon" id="btn-gyro" title="Toggle Gyroscope">
+            🧭
+          </button>
+          <button class="hud-btn hud-btn-icon" id="btn-vr" title="Enter VR Mode" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+            🥽
+          </button>
           <button class="hud-btn hud-btn-ghost" id="btn-back">
             ← Lobby
           </button>
@@ -121,5 +127,23 @@ export class HUD {
 
   onArrange(callback) {
     this.element.querySelector('#btn-arrange').addEventListener('click', callback);
+  }
+
+  onGyro(callback) {
+    this.element.querySelector('#btn-gyro').addEventListener('click', callback);
+  }
+
+  onVR(callback) {
+    this.element.querySelector('#btn-vr').addEventListener('click', callback);
+  }
+
+  setGyroActive(active) {
+    const btn = this.element.querySelector('#btn-gyro');
+    if (btn) {
+      btn.classList.toggle('active', active);
+      btn.style.background = active
+        ? 'linear-gradient(135deg, #00f0ff, #0077ff)'
+        : '';
+    }
   }
 }

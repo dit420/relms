@@ -4147,3 +4147,114 @@ body {
     font-size: 0.5rem;
   }
 }
+
+/* ============================================
+   HUD Icon Buttons (Gyro / VR)
+   ============================================ */
+
+.hud-btn-icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.hud-btn-icon:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: scale(1.08);
+}
+
+.hud-btn-icon.active {
+  box-shadow: 0 0 14px rgba(0, 240, 255, 0.3);
+}
+
+/* ============================================
+   VR Stereo Mode
+   ============================================ */
+
+.vr-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.vr-overlay.active {
+  opacity: 1;
+}
+
+.vr-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.vr-divider {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateX(-1px);
+  pointer-events: none;
+}
+
+.vr-exit-btn {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 60, 60, 0.4);
+  background: rgba(255, 0, 0, 0.15);
+  color: #ff4444;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.vr-exit-btn:hover {
+  background: rgba(255, 0, 0, 0.3);
+  box-shadow: 0 0 16px rgba(255, 0, 0, 0.2);
+}
+
+/* Mobile — make HUD actions wrap nicely */
+@media (max-width: 640px) {
+  .hud-actions {
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .hud-btn {
+    font-size: 0.65rem;
+    padding: 6px 12px;
+  }
+
+  .hud-btn-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+}

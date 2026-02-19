@@ -16,6 +16,7 @@ import { HUD } from './ui/HUD.js';
 import { LandingPage } from './ui/LandingPage.js';
 import { EditPanel } from './ui/EditPanel.js';
 import { ArrangeMode } from './ui/ArrangeMode.js';
+import { VRMode } from './engine/VRMode.js';
 
 class App {
     constructor() {
@@ -144,6 +145,19 @@ class App {
                 this.arrangeMode = arrangeMode;
             }
 
+            // Gyro toggle
+            const cc = this.engine.cameraController;
+            hud.setGyroActive(cc.gyroEnabled);
+            hud.onGyro(() => {
+                cc.toggleGyro();
+                hud.setGyroActive(cc.gyroEnabled);
+            });
+
+            // VR mode
+            const vrMode = new VRMode(this.engine);
+            hud.onVR(() => vrMode.enter());
+            this.vrMode = vrMode;
+
             // Store references for cleanup
             this.hud = hud;
             this.interactionPanel = interactionPanel;
@@ -201,6 +215,10 @@ class App {
             if (this.arrangeMode) {
                 this.arrangeMode.close();
                 this.arrangeMode = null;
+            }
+            if (this.vrMode) {
+                this.vrMode.exit();
+                this.vrMode = null;
             }
 
             // Re-show landing
