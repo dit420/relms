@@ -16,6 +16,8 @@ export class RealmEngine {
         this.particles = [];
         this.animationCallbacks = [];
         this._animFrameId = null;
+        this.isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        this.particlesEnabled = true;
 
         this._initCamera();
         this._initRenderers();
@@ -318,15 +320,30 @@ export class RealmEngine {
         animate();
     }
 
+
+
+    toggleParticles() {
+        this.particlesEnabled = !this.particlesEnabled;
+        this.particles.forEach(p => {
+            p.points.visible = this.particlesEnabled;
+        });
+        return this.particlesEnabled;
+    }
+
     _updateParticles(delta) {
+        if (!this.particlesEnabled) return;
+
+        // Clamp delta to prevent vertex explosions on lag/tab switch
+        const safeDelta = Math.min(delta, 0.1);
+
         this.particles.forEach(({ points, velocities, area, type }) => {
             const positions = points.geometry.attributes.position.array;
             const count = positions.length / 3;
 
             for (let i = 0; i < count; i++) {
-                positions[i * 3] += velocities[i * 3] * delta * 60;
-                positions[i * 3 + 1] += velocities[i * 3 + 1] * delta * 60;
-                positions[i * 3 + 2] += velocities[i * 3 + 2] * delta * 60;
+                positions[i * 3] += velocities[i * 3] * safeDelta * 60;
+                positions[i * 3 + 1] += velocities[i * 3 + 1] * safeDelta * 60;
+                positions[i * 3 + 2] += velocities[i * 3 + 2] * safeDelta * 60;
 
                 // Reset particle if it falls below
                 if (positions[i * 3 + 1] < -area.y / 2) {

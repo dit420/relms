@@ -33,7 +33,7 @@ export class ActivityMood {
     _applyCodingMood() {
         // Matrix-style code rain
         this.engine.addParticleSystem({
-            count: 500,
+            count: this.engine.isMobile ? 150 : 500,
             color: 0x39ff14,
             size: 2.5,
             area: { x: 400, y: 400, z: 400 },
@@ -64,7 +64,7 @@ export class ActivityMood {
 
         // Ambient particles that pulse
         this.engine.addParticleSystem({
-            count: 200,
+            count: this.engine.isMobile ? 100 : 200,
             color: 0xff2d95,
             size: 4,
             area: { x: 500, y: 300, z: 500 },
@@ -77,7 +77,7 @@ export class ActivityMood {
     _applyWorkoutMood() {
         // Bright, energetic bursts
         this.engine.addParticleSystem({
-            count: 400,
+            count: this.engine.isMobile ? 200 : 400,
             color: 0xff6b2b,
             size: 3,
             area: { x: 400, y: 400, z: 400 },
@@ -101,7 +101,7 @@ export class ActivityMood {
 
         // Floating dust motes
         this.engine.addParticleSystem({
-            count: 100,
+            count: this.engine.isMobile ? 50 : 100,
             color: 0x8888ff,
             size: 2,
             area: { x: 400, y: 200, z: 400 },

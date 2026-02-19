@@ -72,7 +72,7 @@ export class WeatherSystem {
         switch (condition) {
             case 'rain':
                 this.particleSystem = this.engine.addParticleSystem({
-                    count: 2000,
+                    count: this.engine.isMobile ? 500 : 2000,
                     color: 0x4488cc,
                     size: 1.5,
                     area: { x: 600, y: 500, z: 600 },
@@ -85,7 +85,7 @@ export class WeatherSystem {
 
             case 'snow':
                 this.particleSystem = this.engine.addParticleSystem({
-                    count: 800,
+                    count: this.engine.isMobile ? 300 : 800,
                     color: 0xffffff,
                     size: 3,
                     area: { x: 600, y: 500, z: 600 },
@@ -98,7 +98,7 @@ export class WeatherSystem {
 
             case 'thunderstorm':
                 this.particleSystem = this.engine.addParticleSystem({
-                    count: 3000,
+                    count: this.engine.isMobile ? 800 : 3000,
                     color: 0x4466aa,
                     size: 1.5,
                     area: { x: 600, y: 500, z: 600 },
@@ -120,7 +120,7 @@ export class WeatherSystem {
                 this.engine.setSceneTint(0x0a0a2e, 0.2);
                 // Add subtle starfield particles
                 this.engine.addParticleSystem({
-                    count: 300,
+                    count: this.engine.isMobile ? 100 : 300,
                     color: 0xffffff,
                     size: 1.5,
                     area: { x: 800, y: 400, z: 800 },

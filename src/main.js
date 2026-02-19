@@ -145,6 +145,13 @@ class App {
                 this.arrangeMode = arrangeMode;
             }
 
+            // Particle toggle
+            hud.setParticlesActive(this.engine.particlesEnabled);
+            hud.onParticles(() => {
+                const active = this.engine.toggleParticles();
+                hud.setParticlesActive(active);
+            });
+
             // Gyro toggle
             const cc = this.engine.cameraController;
             hud.setGyroActive(cc.gyroEnabled);

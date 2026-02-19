@@ -57,6 +57,9 @@ export class HUD {
           <button class="hud-btn hud-btn-primary" id="btn-arrange" style="display:none; background: linear-gradient(135deg, #00f0ff, #0077ff);">
             🗺️ Arrange
           </button>
+          <button class="hud-btn hud-btn-icon" id="btn-particles" title="Toggle Particles" style="background: rgba(255, 255, 255, 0.2);">
+            ✨
+          </button>
           <button class="hud-btn hud-btn-icon" id="btn-gyro" title="Toggle Gyroscope">
             🧭
           </button>
@@ -135,6 +138,18 @@ export class HUD {
 
   onVR(callback) {
     this.element.querySelector('#btn-vr').addEventListener('click', callback);
+  }
+
+  onParticles(callback) {
+    this.element.querySelector('#btn-particles').addEventListener('click', callback);
+  }
+
+  setParticlesActive(active) {
+    const btn = this.element.querySelector('#btn-particles');
+    if (btn) {
+      btn.style.background = active ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.05)';
+      btn.style.opacity = active ? '1' : '0.5';
+    }
   }
 
   setGyroActive(active) {
