@@ -77,10 +77,14 @@ export class RealmEngine {
     createPanoramaSphere(colorConfig, isNight = false) {
         const { h, s, l } = colorConfig;
 
+        // Optimize resolution for mobile
+        const width = this.isMobile ? 1024 : 2048;
+        const height = this.isMobile ? 512 : 1024;
+
         // Create canvas-based texture for the panorama
         const canvas = document.createElement('canvas');
-        canvas.width = 2048;
-        canvas.height = 1024;
+        canvas.width = width;
+        canvas.height = height;
         const ctx = canvas.getContext('2d');
 
         // Background gradient
@@ -103,7 +107,8 @@ export class RealmEngine {
 
         // Stars (at night)
         if (isNight) {
-            for (let i = 0; i < 400; i++) {
+            const starCount = this.isMobile ? 150 : 400;
+            for (let i = 0; i < starCount; i++) {
                 const x = Math.random() * canvas.width;
                 const y = Math.random() * canvas.height * 0.5;
                 const size = Math.random() * 2 + 0.5;
@@ -118,7 +123,7 @@ export class RealmEngine {
         // Subtle grid lines (room feel)
         ctx.strokeStyle = `rgba(255, 255, 255, 0.02)`;
         ctx.lineWidth = 1;
-        const gridSize = 64;
+        const gridSize = this.isMobile ? 32 : 64;
         for (let x = 0; x < canvas.width; x += gridSize) {
             ctx.beginPath();
             ctx.moveTo(x, 0);
@@ -133,7 +138,7 @@ export class RealmEngine {
         }
 
         // Neon glow spots
-        const numGlows = 6;
+        const numGlows = this.isMobile ? 3 : 6;
         for (let i = 0; i < numGlows; i++) {
             const gx = Math.random() * canvas.width;
             const gy = canvas.height * 0.4 + Math.random() * canvas.height * 0.3;
@@ -151,10 +156,14 @@ export class RealmEngine {
         const texture = new THREE.CanvasTexture(canvas);
         texture.mapping = THREE.EquirectangularReflectionMapping;
 
-        const geometry = new THREE.SphereGeometry(500, 64, 32);
-        geometry.scale(-1, 1, 1); // Invert so we see from inside
+        const geometry = new THREE.SphereGeometry(500, this.isMobile ? 32 : 64, this.isMobile ? 16 : 32);
+        // NO SCALING - Use BackSide instead for better mobile compatibility
+        // geometry.scale(-1, 1, 1); 
 
-        const material = new THREE.MeshBasicMaterial({ map: texture });
+        const material = new THREE.MeshBasicMaterial({
+            map: texture,
+            side: THREE.BackSide
+        });
         this.panoramaMesh = new THREE.Mesh(geometry, material);
         this.scene.add(this.panoramaMesh);
 
@@ -306,6 +315,7 @@ export class RealmEngine {
 
             // Update camera
             this.cameraController.update();
+            this.camera.position.set(0, 0, 0); // Enforce stationary observer
 
             // Update particles
             this._updateParticles(delta);
