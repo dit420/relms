@@ -74,8 +74,38 @@ export class RealmEngine {
     /**
      * Create a procedural 360° panoramic sphere with a gradient + stars.
      */
+    /**
+     * Set the global theme (background colors).
+     */
+    setTheme(theme) {
+        if (!theme || !theme.data) return;
+        this.createPanoramaSphere({
+            h: 0, s: 0, l: 0, // unused if using hex
+            hex: theme.data.panorama
+        }, theme.data.isNight);
+    }
+
     createPanoramaSphere(colorConfig, isNight = false) {
-        const { h, s, l } = colorConfig;
+        // Remove existing panorama
+        if (this.panoramaMesh) {
+            this.scene.remove(this.panoramaMesh);
+            this.panoramaMesh.geometry.dispose();
+            this.panoramaMesh.material.map.dispose();
+            this.panoramaMesh.material.dispose();
+        }
+
+        // Parse color
+        let h, s, l;
+        if (colorConfig.hex) {
+            const color = new THREE.Color(colorConfig.hex);
+            const hsl = {};
+            color.getHSL(hsl);
+            h = hsl.h * 360;
+            s = hsl.s * 100;
+            l = hsl.l * 100;
+        } else {
+            ({ h, s, l } = colorConfig);
+        }
 
         // Optimize resolution for mobile
         const width = this.isMobile ? 1024 : 2048;

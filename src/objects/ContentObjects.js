@@ -28,6 +28,23 @@ export class ContentObjects {
         this._initCenterStage();
     }
 
+    applyFrame(frameClass) {
+        this.objects.forEach(obj => {
+            // CSS3D objects are HTMLElements
+            if (obj instanceof HTMLElement) {
+                if (obj.classList.contains('css3d-user-photo') || obj.classList.contains('css3d-photo-frame')) {
+                    // Remove old frame classes
+                    Array.from(obj.classList).forEach(cls => {
+                        if (cls.startsWith('frame-') && cls !== 'frame-polaroid') { // Keep default if needed? Or just wipe
+                            obj.classList.remove(cls);
+                        }
+                    });
+                    if (frameClass) obj.classList.add(frameClass);
+                }
+            }
+        });
+    }
+
     /**
      * Spawn user-uploaded photos with their chosen frame styles.
      */

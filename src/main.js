@@ -17,12 +17,16 @@ import { LandingPage } from './ui/LandingPage.js';
 import { EditPanel } from './ui/EditPanel.js';
 import { ArrangeMode } from './ui/ArrangeMode.js';
 import { VRMode } from './engine/VRMode.js';
+import { UserManager } from './managers/UserManager.js';
+import { Marketplace } from './ui/Marketplace.js';
+import { ITEMS } from './data/items.js';
 
 class App {
     constructor() {
         this.app = document.getElementById('app');
         this.engine = null;
         this.currentRealm = null;
+        this.userManager = new UserManager();
 
         this._showLanding();
     }
@@ -98,6 +102,35 @@ class App {
             const hud = new HUD();
             this.app.appendChild(hud.element);
             hud.updateProfile(realmData);
+            hud.updateAura(this.userManager.aura);
+
+            // Marketplace
+            const marketplace = new Marketplace(this.userManager);
+            this.app.appendChild(marketplace.element);
+            hud.onShop(() => marketplace.open());
+
+            // Global event listeners for customization
+            window.addEventListener('user-update', (e) => {
+                hud.updateAura(e.detail.aura);
+            });
+
+            window.addEventListener('item-equip', (e) => {
+                const { type, itemId } = e.detail;
+                if (type === 'theme') {
+                    const theme = ITEMS.themes.find(t => t.id === itemId);
+                    if (theme) this.engine.setTheme(theme);
+                } else if (type === 'frame') {
+                    const frame = ITEMS.frames.find(f => f.id === itemId);
+                    if (frame) contentObjects.applyFrame(frame.cssClass);
+                }
+            });
+
+            // Apply initial equipped items
+            const currentTheme = ITEMS.themes.find(t => t.id === this.userManager.getEquipped('theme'));
+            if (currentTheme) this.engine.setTheme(currentTheme);
+
+            const currentFrame = ITEMS.frames.find(f => f.id === this.userManager.getEquipped('frame'));
+            if (currentFrame) contentObjects.applyFrame(currentFrame.cssClass);
             hud.updateWeather(weatherSystem.getDisplayInfo());
 
             // Create interaction panel (for visitors)

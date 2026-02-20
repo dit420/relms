@@ -33,6 +33,10 @@ export class HUD {
             <div class="hud-weather-city" id="hud-weather-city"></div>
           </div>
         </div>
+        <div class="hud-currency glass" id="hud-currency" style="margin-left:auto; margin-right:20px; display:flex; align-items:center; gap:8px; padding:8px 16px; border-radius:99px; background:rgba(124,58,237,0.2);">
+          <span>💠</span>
+          <span id="hud-aura-amount" style="font-weight:700; color:#fff;">0</span>
+        </div>
       </div>
 
       <div class="pan-hint" id="pan-hint">
@@ -56,6 +60,9 @@ export class HUD {
           </button>
           <button class="hud-btn hud-btn-primary" id="btn-arrange" style="display:none; background: linear-gradient(135deg, #00f0ff, #0077ff);">
             🗺️ Arrange
+          </button>
+          <button class="hud-btn hud-btn-primary" id="btn-shop" style="background: linear-gradient(135deg, #ffd700, #ffaa00);">
+            🛒 Shop
           </button>
           <button class="hud-btn hud-btn-icon" id="btn-particles" title="Toggle Particles" style="background: rgba(255, 255, 255, 0.2);">
             ✨
@@ -160,5 +167,15 @@ export class HUD {
         ? 'linear-gradient(135deg, #00f0ff, #0077ff)'
         : '';
     }
+  }
+
+  updateAura(amount) {
+    const el = this.element.querySelector('#hud-aura-amount');
+    if (el) el.textContent = amount;
+  }
+
+  onShop(callback) {
+    const btn = this.element.querySelector('#btn-shop');
+    if (btn) btn.addEventListener('click', callback);
   }
 }
