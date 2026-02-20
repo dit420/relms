@@ -32,7 +32,16 @@ class App {
     }
 
     _showLanding() {
-        const landing = new LandingPage((realm) => this._enterRealm(realm));
+        const marketplace = new Marketplace(this.userManager);
+        this.app.appendChild(marketplace.element);
+
+        const landing = new LandingPage(
+            (realm) => {
+                marketplace.element.remove();
+                this._enterRealm(realm);
+            },
+            () => marketplace.open('frames')
+        );
         this.app.appendChild(landing.element);
         this.landingPage = landing;
     }
@@ -107,7 +116,7 @@ class App {
             // Marketplace
             const marketplace = new Marketplace(this.userManager);
             this.app.appendChild(marketplace.element);
-            hud.onShop(() => marketplace.open());
+            hud.onShop(() => marketplace.open('frames'));
 
             // Global event listeners for customization
             window.addEventListener('user-update', (e) => {

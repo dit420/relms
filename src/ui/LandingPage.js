@@ -50,8 +50,9 @@ const ACTIVITY_LIVE_TEXT = {
 };
 
 export class LandingPage {
-  constructor(onSelect) {
+  constructor(onSelect, onShop) {
     this.onSelect = onSelect;
+    this.onShop = onShop;
     this.mouseX = 0;
     this.mouseY = 0;
     loadCustomRealms();
@@ -82,6 +83,7 @@ export class LandingPage {
           <h1 class="portal-logo">REALMS</h1>
         </div>
         <div class="portal-nav-right">
+          <span class="portal-nav-link" id="nav-shop">SHOP</span>
           <span class="portal-nav-link">DISCOVER</span>
           <span class="portal-nav-link">MAP VIEW</span>
           <span class="portal-nav-link portal-nav-link-active">ENTER</span>
@@ -355,6 +357,12 @@ export class LandingPage {
 
     // Submit
     page.querySelector('#cr-submit').addEventListener('click', () => this._onCreateRealm(page));
+
+    // Shop button
+    const shopBtn = page.querySelector('#nav-shop');
+    if (shopBtn && this.onShop) {
+      shopBtn.addEventListener('click', () => this.onShop());
+    }
   }
 
   // ==================

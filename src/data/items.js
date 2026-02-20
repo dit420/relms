@@ -90,6 +90,42 @@ export const ITEMS = {
             previewClass: 'frame-wood',
             type: 'frame',
             cssClass: 'frame-wood'
+        },
+        {
+            id: 'frame_film_reel',
+            name: 'film reel.jfif',
+            price: 250,
+            description: 'Classic cinema style.',
+            previewSrc: '/market/film reel.jfif',
+            type: 'frame',
+            cssClass: 'frame-market'
+        },
+        {
+            id: 'frame_neon_blue_purple',
+            name: 'neon blue purple frame.png',
+            price: 250,
+            description: 'Futuristic glow.',
+            previewSrc: '/market/neon blue purple frame.png',
+            type: 'frame',
+            cssClass: 'frame-market'
+        },
+        {
+            id: 'frame_olive_glow',
+            name: 'olive green glow frame.png',
+            price: 250,
+            description: 'Earthy neon vibes.',
+            previewSrc: '/market/olive green glow frame.png',
+            type: 'frame',
+            cssClass: 'frame-market'
+        },
+        {
+            id: 'frame_polaroid',
+            name: 'polariod image.png',
+            price: 250,
+            description: 'Instant memory style.',
+            previewSrc: '/market/polariod image.png',
+            type: 'frame',
+            cssClass: 'frame-market'
         }
     ]
 };

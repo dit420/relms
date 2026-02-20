@@ -145,6 +145,13 @@
     border: 8px solid #8b4513;
 }
 
+.mp-preview.image-frame {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 .mp-item-info {
     padding: 16px;
     flex: 1;
@@ -152,13 +159,16 @@
 
 .mp-item-name {
     color: #fff;
-    font-weight: 600;
-    margin-bottom: 4px;
+    font-weight: 700;
+    margin-bottom: 2px;
+    font-family: 'Space Grotesk', sans-serif;
+    text-transform: capitalize;
 }
 
 .mp-item-desc {
     color: rgba(255, 255, 255, 0.5);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
 }
 
 .mp-item-action {

@@ -1,4 +1,5 @@
 import { ITEMS } from '../data/items.js';
+import '../styles/marketplace.css';
 
 export class Marketplace {
     constructor(userManager) {
@@ -15,8 +16,8 @@ export class Marketplace {
         div.innerHTML = `
             <div class="mp-header">
                 <div>
-                    <h2>MARKETPLACE</h2>
-                    <div class="mp-subtitle">Customize Your Reality</div>
+                    <h2>FRAME MARKETPLACE</h2>
+                    <div class="mp-subtitle">Premium Customization</div>
                 </div>
                 <div class="mp-balance-box">
                     <span class="currency-icon">💠</span>
@@ -90,7 +91,11 @@ export class Marketplace {
             if (item.type === 'theme') {
                 preview = `<div class="mp-preview theme" style="background: ${item.previewColor}"></div>`;
             } else {
-                preview = `<div class="mp-preview frame ${item.previewClass}"></div>`;
+                if (item.previewSrc) {
+                    preview = `<div class="mp-preview frame image-frame" style="background-image: url('${item.previewSrc}')"></div>`;
+                } else {
+                    preview = `<div class="mp-preview frame ${item.previewClass}"></div>`;
+                }
             }
 
             el.innerHTML = `
@@ -124,7 +129,14 @@ export class Marketplace {
         });
     }
 
-    open() {
+    open(tab) {
+        if (tab) {
+            this.currentTab = tab;
+            // Update active tab button UI
+            this.element.querySelectorAll('.mp-tab').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tab === tab);
+            });
+        }
         this.element.classList.remove('hidden');
         this.update();
     }
